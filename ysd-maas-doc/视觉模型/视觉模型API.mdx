@@ -1,0 +1,170 @@
+---
+title: "视觉模型API"
+description: 视觉模型API
+footer: Copyright © 2004-2022 Lanyun.net All Rights Reserved.蓝耘科技集团股份有限公司版权所有，盗用，盗版必究!  京ICP备<a target="_blank" href="https://beian.miit.gov.cn/">11028363-4号 </a>  京公网安备<a target="_blank" href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030190">11010802039677号</a>
+---
+
+**视觉模型API**
+
+**Video Generation（视频生成）**
+
+该API支持基于用户提供的prompt、首帧图片、主体参考图片，生成720p，25帧的动态视频。
+
+该接口采用异步调用的方式完成视频生成：首先创建视频生成任务，对应接口会返回任务ID（task\_id）；接下来，在异步任务查询接口通过任务 ID （task\_id），获取视频生成任务的状态，以及生成的视频的文件ID（file\_id）。
+
+**API说明**
+
+完成视频生成及下载，使用到三个API：创建视频生成任务、查询视频生成任务状态文件管理。具体步骤如下：
+
+1\.使用创建视频生成任务接口，创建视频生成任务，并得到task\_id；
+
+2\.使用查询视频生成任务状态接口，基于task\_id查询视频生成任务状态；当状态为成功时，将获得对应的文件 ID（file\_id）；
+
+3\.使用文件管理接口（File API）基于步骤2查询接口返回的file\_id进行视频生成结果的查看和下载。
+
+**创建视频生成任务API**
+
+POST  https://maas-api.lanyun.net/v1/video\_generation
+
+请求示例（**Python）**
+
+```python
+import requests
+import json
+
+url = "https://maas-api.lanyun.net/v1/video_generation"
+
+payload = json.dumps({
+  "model": "I2V-01-Director",
+  "prompt": "测试12312312313",
+  "promptOptimizer": "true",
+  "firstFrameImage": "data:image/jpeg;base64,{image_base64_data}"
+
+})
+headers = {
+   'Authorization': 'Bearer sk-******************',
+   'Content-Type': 'application/json'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+```
+
+
+**请求示例（Crul）**
+
+```curl
+curl --location --request POST 'https://maas-api.lanyun.net/v1/video_generation' \
+--header 'Authorization: Bearer sk-*****************' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "model": "I2V-01",
+    "prompt": "起风了",
+    "promptOptimizer": true,
+    "firstFrameImage": ""
+}'
+```
+
+**返回示例**
+
+```json
+{
+    "task_id": "174741320903036928",
+    "base_resp": {
+        "status_code": 0,
+        "status_msg": "success"
+    }
+}
+```
+
+|**请求体（Request）参数**||||
+| :- | :- | :- | :- |
+|**参数名称**|**类型**|**必填项**|**描述**|
+|Authorization|string|必填|给定的API密钥|
+|Content-Type|application/json|必填|Content-type|
+|model|string|必填|调用的算法模型ID。可选项：T2V-01-Director、I2V-01-Director、S2V-01、I2V-01-live、I2V-01、T2V-01|
+|prompt|string|非必填|生成视频的描述。(注：最大支持2000字符)。|
+|promptOptimizer|boolean|非必填|默认取值为True，模型会自动优化传入的prompt，以提升生成质量。如果需要更精确的控制，可以将此参数设置为False，模型将更加严格地遵循指令。此时建议提供更精细的prompt，以获得最佳效果|
+|<p>firstFrameImage</p><p></p>|string|非必填|<p>本参数当model选择为I2V-01I2V-01-DirectorI2V-01-live时，为必填参数。模型将以此参数中传入的图片为首帧画面来生成视频。支持传入图片的data:image/jpeg;base64,{data}格式的 Base64 编码字符串，或可通过公网访问的 URL。传入此参数时支持将prompt设置为空字符串或不传入prompt，模型将自主决定画面如何演变。</p><p>传入图片需要满足以下条件：</p><p>- 格式为JPG/JPEG/PNG；</p><p>- 长宽比大于2:5、小于5:2；</p><p>- 短边像素大于300px；</p><p>- 体积不大于20MB。</p>|
+|subjectReference|array|非必填|本参数仅当model选择为S2V-01时可用。模型将依据此参数中上传的主体来生成视频。目前仅支持单主体参考（数组长度为 1）。|
+|**返回（Response）参数**||||
+|task\_id|string||视频生成异步任务的任务id，生成结果需要通过使用此id在异步任务查询接口中获取。|
+|base\_resp|||<p>状态码及其详情。</p><p>base\_resp.status\_code</p><p>状态码及其分别含义如下：</p><p>0：请求成功；</p><p>1002：触发限流，请稍后再试；</p><p>1004：账号鉴权失败，请检查 API-Key 是否填写正确；</p><p>1008：账号余额不足；</p><p>1026：视频描述涉及敏感内容，请调整；</p><p>2013：传入参数异常，请检查入参是否按要求填写；</p><p>2049：无效的api key，请检查api key。</p><p></p><p>base\_resp.status\_msg</p><p>具体错误详情</p>|
+
+**其他说明：**
+当参数model选择为T2V-01-DirectorI2V-01-Director时，对prompt中的运镜控制，有更准确的响应。
+
+1. 支持插入运镜指令，实现运镜控制：运镜指令需以[ ]格式插入prompt中镜头应用处，标准运镜指令格式为[C1,C2,C3]，其中C表示不同类型运镜，共支持15种枚举运镜方式，具体可参考下方详情。为保证运镜效果，建议组合运镜指令不超过3个。
+   1、支持15种运镜方式（枚举值）
+   （1） 左右移：[左移]、[右移]
+   （2）左右摇：[左摇]、[右摇]
+   （3）推拉：[推进]、[拉远]
+   （4）升降：[上升]、[下降]
+   （5）上下摇：[上摇]、[下摇]
+   （6）变焦：[变焦推近]、[变焦拉远]
+   （7）晃动：[晃动]
+   （8）跟随：[跟随]
+   （9）固定：[固定]
+   2、支持单一及组合运镜
+   （1）单一运镜：例如[左摇]，表示插入单一镜头；
+   （2）多运镜同时生效：同一组内的镜头表示同时生效，如[左摇,右移]，表示插入两个组合镜头，且同时生效；
+   （3）多运镜先后生效：插入在前的镜头指令，先生效。如在prompt描述“xxx[左摇]，xxx[右移] ” 表示：视频生成时，先运行左摇镜头，后运行右移镜头；
+2. 支持通过自然语言描述，实现运镜控制；使用指令内运镜名称，会提升运镜响应准确性。
+3. 运镜指令与自然语言描述可同时生效。
+
+   **查询视频生成任务状态API**
+
+   GET https://maas-api.lanyun.net/v1/query/video\_generation?taskId={task\_id}
+
+   **请求示例（Python）**
+
+```python
+import requests
+import json
+
+api_key="sk-*************"
+task_id="174847042751959040"
+
+url = f"https://maas-api.lanyun.net/v1/query/video_generation?taskId={task_id}"
+
+headers = {
+  'authorization': f'Bearer {api_key}'
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+   **请求示例（Crul）**
+
+```curl
+curl --location --request GET 'https://maas-api.lanyun.net/v1/query/video_generation?taskId=174741320903036928' \
+--header 'Authorization: Bearer sk-**************'
+```
+
+   **返回示例**
+
+```json
+{
+    "taskId": "174741320903036928",
+    "status": "Success",
+    "videoWidth": null,
+    "videoHeight": null,
+    "videoDownLoadUrl": "https://oss.lanyun.net/private//cloud-maas/11564/16/2025-03-11/32206a67-5265-4db9-a0c8-081d38653943.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=G54Tgw7wJRAKeBOej7Rz%2F20250311%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250311T030018Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=e3a77757c844412a6dfc24f1770b6a201041027eda8691f6493b28011927b539"
+}
+```
+
+| **请求体（Request）参数** | | | |
+| --- | --- | --- | --- |
+| **参数名称** | **类型** | **必填项** | **描述** |
+| Authorization | string | 必填 | 给定的API密钥 |
+| taskId | string | 必填 | 需要查询的任务ID。仅能查绚当前账号创建的任务。 |
+| **返回（Response）参数** | | | |
+| taskId | string | -- | 需要查询的任务ID。仅能查绚当前账号创建的任务。 |
+| <p>status</p><p></p> | string | -- | <p>任务状态，包括以下状态：</p><p>Preparing-准备中</p><p>Queueing-队列中</p><p>Processing-生成中</p><p>Success-成功</p><p>Fail-失败</p> |
+| videoWidth | -- | -- | 任务成功后，该字段将返回生成视频的横边像素数。 |
+| videoHeight | -- | -- | 任务成功后，该字段将返回生成视频的竖边像素数。 |
+| videoDownLoadUrl | -- | -- | 任务成功后，该字段将返回生成视频的临时下载地址。 |
+

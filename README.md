@@ -30,3 +30,26 @@ Install our Github App to auto propagate changes from your repo to your deployme
 
 - Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
 - Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+
+# 安装
+```
+npm i -g mintlify
+```
+
+# 开发模型运行
+
+```
+mintlify dev
+```
+
+# 打包
+```
+mintlify dev
+```
+
+# 自动构建openapi
+
+```
+https://mintlify.com/docs/api-playground/openapi/setup
+npx @mintlify/scraping@latest openapi-file <path-to-openapi-file> -o api-reference
+```

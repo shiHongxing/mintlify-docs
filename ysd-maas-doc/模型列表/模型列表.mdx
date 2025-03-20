@@ -1,0 +1,38 @@
+---
+title: "模型列表"
+description: 模型列表
+footer: Copyright © 2004-2022 Lanyun.net All Rights Reserved.蓝耘科技集团股份有限公司版权所有，盗用，盗版必究!  京ICP备<a target="_blank" href="https://beian.miit.gov.cn/">11028363-4号 </a>  京公网安备<a target="_blank" href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030190">11010802039677号</a>
+---
+
+
+**模型列表**
+
+<a name="heading_0"></a>**文本模型**
+
+| 模型名称 | API调用名称 | baseUrl | 类型 | 免费赠送token | 输入计价（元/百万token） | 输出计价（元/百万token） | <p>上下文长度</p><p>（token）</p> | 输入token上限 | 输出token上限 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| <p>DeepSeek-R1</p><p></p> | /maas/deepseek-ai/DeepSeek-R1 | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | <p>500W</p><p></p> | 2 | 8 | 64k | 65536 | 9536 |
+| DeepSeek-V3 | /maas/deepseek-ai/DeepSeek-V3 | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | <p>500W</p><p></p> | 1 | <p>4</p><p></p> | <p>64k</p><p></p> | 65536 | 9536 |
+| DeepSeek-R1-Distill-Qwen-1.5B | /maas/deepseek-r1:1.5b | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | -- | 免费 | 免费 | 64k | 65536 | <p>9536</p><p></p> |
+| DeepSeek-R1-Distill-Qwen-7B | /maas/deepseek-r1:7b | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | -- | 0.6 | 2.4 | 64k | 65536 | 9536 |
+| DeepSeek-R1-Distill-Qwen-14B | /maas/deepseek-r1:14b | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | -- | 0.7 | 0.7 | 64k | 65536 | 9536 |
+| <p>DeepSeek-R1-Distill-Qwen-32B</p><p></p> | /maas/deepseek-r1:32b | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | -- | <p>1.5</p><p></p> | 6 | 64k | 65536 | 9536 |
+| deepseek-r1-distill-llama-8b | /maas/deepseek-r1:8b | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | -- | 免费 | 免费 | 64k | 65536 | 9536 |
+| deepseek-r1-distill-llama-70b | /maas/deepseek-r1:70b | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | -- | 免费 | 免费 | 64k | 65536 | 9536 |
+| <b>通义系</b> |  |  |  |  |  |  |  |  |  |
+| <p>QwQ-32B</p><p></p> | /maas/qwen/QwQ-32B | <p>https://maas-api.lanyun.net/v1/chat/completions</p><p></p> | 文本对话 | <p>100W</p><p></p> | <p>1</p><p></p> | 4 | 40K | 40960 | 9536 |
+
+<a name="heading_1"></a>**视觉模型**
+
+| 模型名称 | API调用名称 | baseUrl | 模型内容 | 类型 | 免费额度 | 单价 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 通义千问系（敬请期待） |  |  |  |  |  |  |
+| Minimax系 |  |  |  |  |  |  |
+| I2V-01 | I2V-01 | <p>生成视频：/v1/video_generation</p><p>查询视频：/v1/query/video_generation</p> | I2V-01 是一款专注于将静态图像转化为动态视频的生成模型。它通过智能分析输入图片的内容（如场景、物体、人物动作等），自动生成连贯的短视频片段，适用于电商展示、艺术创作或社交媒体内容生成。模型支持自定义视频时长和基础特效，能够快速为静态内容赋予生命力 | 图生视频 | 免费赠送1次 | 2.8元/次 |
+| I2V-01-Director | I2V-01-Director | <p>生成视频：/v1/video_generation</p><p>查询视频：/v1/query/video_generation</p> | 在基础 I2V 功能上，I2V-01-Director 提供了更精细的创作控制。用户可手动调整镜头运动轨迹（如推拉摇移）、动态光影效果和场景过渡节奏，支持多图层叠加与分镜脚本输入，适合影视级内容创作或广告制作，让普通用户也能实现专业导演的镜头语言。 | 图生视频 | 免费赠送1次 | 2.8元/次 |
+| <p>I2V-01-live</p><p></p> | <p>I2V-01-live</p><p></p> | <p>生成视频：/v1/video_generation</p><p>查询视频：/v1/query/video_generation</p> | 专为直播、互动场景设计的实时生成模型。I2V-01-live 能够以极低延迟将输入的图像流转化为动态视频，并支持实时添加滤镜、动态贴纸和背景音乐。适用于虚拟主播、在线教育演示或实时 AR 互动，让静态画面即刻 “动起来”。 | 图生视频 | 免费赠送1次 | 2.8元/次 |
+| <p>T2V-01</p><p></p> | T2V-01 | <p>生成视频：/v1/video_generation</p><p>查询视频：/v1/query/video_generation</p> | T2V-01 通过自然语言描述直接生成视频内容，用户输入一段文字（如 “星空下的鲸鱼跃出海面”），模型即可自动合成匹配的动态画面。支持多种艺术风格（写实、动漫、油画等），适用于短视频脚本快速可视化、教育课件制作或创意灵感呈现。 | 文生视频 | 免费赠送1次 | 2.8元/次 |
+| T2V-01-Director | T2V-01-Director | <p>生成视频：/v1/video_generation</p><p>查询视频：/v1/query/video_generation</p> | 在 T2V-01 基础上，T2V-01-Director 强化了对视频叙事结构的控制能力。用户可通过分镜脚本、角色动作库和场景切换指令精准规划视频节奏，支持多角色互动与复杂剧情编排，适用于影视剧本预演、动画短片制作或品牌故事片开发。 | 文生视频 | 免费赠送1次 | 2.8元/次 |
+| <p>S2V-01</p><p></p> |  | <p>生成视频：/v1/video_generation</p><p>查询视频：/v1/query/video_generation</p> | S2V-01 将语音内容（如旁白、对话或音乐）转化为同步动态画面。模型通过分析语音的情感、语速和关键词，自动生成匹配的视觉元素（如人物口型、场景切换或特效节奏），适合有声书可视化、虚拟偶像直播或语音课程的多媒体转化。 | 主体参考 | 免费赠送1次 | 3.5元/次 |
+
+

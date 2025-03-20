@@ -1,0 +1,232 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "创建文本对话请求",
+    "description": "Creates a model response for the given chat conversation.",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://maas-api.lanyun.net/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/video_generation": {
+      "post": {
+        "description": "Creates a model response for the given chat conversation.",
+        "requestBody": {
+          "description": "/chat/completions request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "/chat/completions response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query/video_generation": {
+      "post": {
+        "description": "Creates a model response for the given chat conversation.",
+        "requestBody": {
+          "description": "/chat/completions request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "/chat/completions response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "request": {
+        "type": "object",
+        "required": ["model", "message"],
+        "properties": {
+          "model": {
+            "description": "模型名称",
+            "type": "string"
+          },
+          "message": {
+            "description": "消息体",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["role", "content"],
+              "properties": {
+                "role": {
+                  "description": "对话消息",
+                  "type": "string"
+                },
+                "content": {
+                  "description": "消息内容",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "stream": {
+            "description": "是否流式响应",
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "response": {
+        "type": "object",
+        "required": ["id", "object", "created", "model", "choices"],
+        "properties": {
+          "id": {
+            "description": "响应 ID",
+            "type": "string",
+            "format": "uuid"
+          },
+          "object": {
+            "description": "响应类型",
+            "type": "string",
+            "example": "chat.completion.chunk"
+          },
+          "created": {
+            "description": "创建时间（时间戳）",
+            "type": "integer",
+            "format": "int64"
+          },
+          "model": {
+            "description": "使用的模型",
+            "type": "string",
+            "example": "/maas/deepseek-r1:70b"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["index", "delta", "finish_reason", "matched_stop"],
+              "properties": {
+                "index": {
+                  "description": "选择索引",
+                  "type": "integer"
+                },
+                "delta": {
+                  "description": "增量内容",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "tool_calls": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "nullable": true
+                    }
+                  }
+                },
+                "logprobs": {
+                  "description": "日志概率",
+                  "type": "object",
+                  "nullable": true
+                },
+                "finish_reason": {
+                  "description": "完成原因",
+                  "type": "string"
+                },
+                "matched_stop": {
+                  "description": "匹配停止标识",
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "usage": {
+            "description": "API 使用信息",
+            "type": "object",
+            "nullable": true
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error", "message"],
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

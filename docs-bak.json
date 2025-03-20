@@ -1,0 +1,130 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "蓝耘科技文档中心",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "元生代智算云平台",
+        "groups": [
+          {
+            "group": "操作手册",
+            "pages": [
+              "ysd-doc/standardquestion/content",
+              "ysd-doc/usecase/content",
+              "ysd-doc/videocourse/content",
+              "ysd-doc/application/content",
+              "ysd-doc/instructions/content",
+              "ysd-doc/other/content",
+              "ysd-doc/ProductNews/content",
+              "ysd-doc/productoverview/content",
+              "ysd-doc/quictstart/content"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "MaaS平台",
+        "groups": [
+          {
+            "group": "操作手册",
+            "pages": [
+              "ysd-maas-doc/产品简介/content",
+              "ysd-maas-doc/快速入门/快速入门",
+              "ysd-maas-doc/模型列表/模型列表",
+              "ysd-maas-doc/视觉模型/视觉模型API",
+              "ysd-maas-doc/文本模型/文本模型API"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "MaaS平台API手册",
+        "groups": [
+          {
+            "group": "文本系列",
+            "pages": [
+              "api-reference-chat/endpoint/chat"
+            ]
+          },
+          {
+            "group": "视频系列",
+            "pages": [
+              "api-reference-video/endpoint/create",
+              "api-reference-video/endpoint/query"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "原mintify案例",
+        "groups": [
+          {
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Endpoint Examples",
+            "pages": [
+              "api-reference/endpoint/get",
+              "api-reference/endpoint/create",
+              "api-reference/endpoint/delete",
+              "api-reference/endpoint/webhook"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Documentation",
+          "href": "https://mintlify.com/docs",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Community",
+          "href": "https://mintlify.com/community",
+          "icon": "slack"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://mintlify.com/blog",
+          "icon": "newspaper"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hi@mintlify.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/mintlify",
+      "github": "https://github.com/mintlify",
+      "linkedin": "https://linkedin.com/company/mintlify"
+    }
+  }
+}
